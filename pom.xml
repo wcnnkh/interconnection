@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.basc.start</groupId>
+    <artifactId>start</artifactId>
+    <version>1.8.0</version>
+  </parent>
+  <groupId>io.github.wcnnkh</groupId>
+  <artifactId>interconnection</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules>
+  	<module>interconnection-core</module>
+  	<module>interconnection-web</module>
+  	<module>interconnection-example</module>
+  	<module>interconnection-qrcode</module>
+  </modules>
+  
+  <dependencyManagement>
+  	<dependencies>
+  		<dependency>
+  			<groupId>io.github.wcnnkh</groupId>
+  			<artifactId>interconnection-core</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>io.github.wcnnkh</groupId>
+  			<artifactId>interconnection-web</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>io.github.wcnnkh</groupId>
+  			<artifactId>interconnection-example</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>io.github.wcnnkh</groupId>
+  			<artifactId>interconnection-qrcode</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>
+  		</dependency>
+  	</dependencies>
+  </dependencyManagement>
+</project>
