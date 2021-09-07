@@ -11,5 +11,9 @@
   		<groupId>io.github.wcnnkh</groupId>
   		<artifactId>interconnection-core</artifactId>
   	</dependency>
+  	<dependency>
+  		<groupId>io.basc.framework</groupId>
+  		<artifactId>sqlite</artifactId>
+  	</dependency>
   </dependencies>
 </project>

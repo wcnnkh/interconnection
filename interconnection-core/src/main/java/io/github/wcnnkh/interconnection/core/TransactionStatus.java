@@ -4,8 +4,8 @@ package io.github.wcnnkh.interconnection.core;
 public enum TransactionStatus {
 	CREATED("已创建"), 
 	EXIPRED("已过期"),
-	CONFIRM("已确认"),
-	CANCEL("已取消");
+	CONFIRMED("已确认"),
+	CANCELLED("已取消");
 
 	private final String desc;
 

@@ -1,15 +1,24 @@
 package io.github.wcnnkh.interconnection.core;
 
+import io.basc.framework.orm.annotation.PrimaryKey;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
 public class Transaction implements Serializable {
 	private static final long serialVersionUID = 1L;
-	@Schema(description = "交易id")
+	@Schema(description = "交易id", required = true)
+	@PrimaryKey
+	@NotEmpty
 	private String transactionId;
-	@Schema(description = "交易状态", enumAsRef = true)
+	@Schema(description = "交易状态", enumAsRef = true, required = true)
 	private TransactionStatus status;
+	@Schema(description = "过期时间， 单位：毫秒", example = "10000", required = true)
+	private long expiryTime;
+	@Schema(description = "创建时间戳, 单位：毫秒", example = "1111213213113", required = true)
+	private long cts;
 
 	public Transaction() {
 	}
@@ -28,5 +37,21 @@ public class Transaction implements Serializable {
 
 	public void setStatus(TransactionStatus status) {
 		this.status = status;
+	}
+
+	public long getExpiryTime() {
+		return expiryTime;
+	}
+
+	public void setExpiryTime(long expiryTime) {
+		this.expiryTime = expiryTime;
+	}
+
+	public long getCts() {
+		return cts;
+	}
+
+	public void setCts(long cts) {
+		this.cts = cts;
 	}
 }
