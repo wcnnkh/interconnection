@@ -6,6 +6,7 @@ import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.core.Ordered;
 import io.basc.framework.event.ObjectEvent;
 import io.basc.framework.util.XUtils;
+import io.github.wcnnkh.interconnection.core.CancelRequest;
 import io.github.wcnnkh.interconnection.core.ConfirmRequest;
 import io.github.wcnnkh.interconnection.core.Transaction;
 import io.github.wcnnkh.interconnection.core.TransactionEventDispatcher;
@@ -51,6 +52,18 @@ public class SimpleTransactionService implements TransactionService {
 		transaction.setTransactionId(transactionId);
 		transaction.setStatus(TransactionStatus.EXIPRED);
 		return transaction;
+	}
+
+	@Override
+	public Result cancel(CancelRequest request) {
+		Transaction transaction = getTransaction(request.getTransactionId());
+		if (transaction == null) {
+			return resultFactory.error("交易不存在或已过期");
+		}
+
+		transaction.setStatus(TransactionStatus.CANCEL);
+		transactionEventDispatcher.publishEvent(new ObjectEvent<Transaction>(transaction));
+		return resultFactory.success();
 	}
 
 }

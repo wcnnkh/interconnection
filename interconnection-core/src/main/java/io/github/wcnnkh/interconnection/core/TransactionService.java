@@ -17,6 +17,13 @@ public interface TransactionService {
 	 * @return
 	 */
 	Result confirm(ConfirmRequest request);
+	
+	/**
+	 * 取消一个交易
+	 * @param request
+	 * @return
+	 */
+	Result cancel(CancelRequest request);
 
 	/**
 	 * 查询一个交易
