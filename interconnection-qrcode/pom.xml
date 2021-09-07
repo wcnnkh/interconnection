@@ -6,4 +6,10 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>interconnection-qrcode</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>io.github.wcnnkh</groupId>
+  		<artifactId>interconnection-core</artifactId>
+  	</dependency>
+  </dependencies>
 </project>
