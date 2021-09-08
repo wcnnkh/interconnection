@@ -1,5 +1,6 @@
 package io.github.wcnnkh.interconnection.web;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -9,6 +10,7 @@ import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
+import io.basc.framework.http.MediaType;
 import io.basc.framework.web.message.annotation.RequestBody;
 import io.github.wcnnkh.interconnection.core.SyncRequest;
 import io.github.wcnnkh.interconnection.core.Transaction;
@@ -35,6 +37,7 @@ public class TransactionController {
 	@Operation(description = "同步交易")
 	@Path("sync")
 	@POST
+	@Consumes(MediaType.APPLICATION_JSON_VALUE)
 	public Result confirm(@RequestBody SyncRequest request) {
 		return transactionService.sync(request);
 	}

@@ -46,7 +46,7 @@ public class SimpleTransactionStorageService implements TransactionStorageServic
 			return false;
 		}
 
-		Sql sql = new SimpleSql("update transaction set status=?, extendedData=? where transactionId=? and status=?",
+		Sql sql = new SimpleSql("update `transaction` set status=?, extendedData=? where transactionId=? and status=?",
 				update.getStatus(),
 				update.getExtendedData() == null ? null
 						: JSONUtils.getJsonSupport().toJSONString(update.getExtendedData()),
