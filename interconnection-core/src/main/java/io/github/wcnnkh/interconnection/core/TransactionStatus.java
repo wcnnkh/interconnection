@@ -1,14 +1,10 @@
 package io.github.wcnnkh.interconnection.core;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
 public enum TransactionStatus {
-	@Schema(description = "已创建")
 	CREATED("已创建", 0), 
 	EXIPRED("已过期", 2), 
-	BEFORE_CONFIRM("确认前", 1), 
+	READY("已准备", 1), 
 	CONFIRMED("已确认", 2), 
-	BEFORE_CANCEL("取消前", 1),
 	CANCELLED("已取消", 2);
 
 	private final String desc;
