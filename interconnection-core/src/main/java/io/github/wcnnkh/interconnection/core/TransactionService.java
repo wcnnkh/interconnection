@@ -11,19 +11,12 @@ public interface TransactionService {
 	Transaction create();
 
 	/**
-	 * 确认一个交易
+	 * 同步交易
 	 * 
-	 * @param transactionId
-	 * @return
-	 */
-	Result confirm(ConfirmRequest request);
-	
-	/**
-	 * 取消一个交易
 	 * @param request
 	 * @return
 	 */
-	Result cancel(CancelRequest request);
+	Result sync(SyncRequest request);
 
 	/**
 	 * 查询一个交易

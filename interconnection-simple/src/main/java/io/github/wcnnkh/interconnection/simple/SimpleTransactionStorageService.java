@@ -1,19 +1,22 @@
 package io.github.wcnnkh.interconnection.simple;
 
+import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.core.Ordered;
 import io.basc.framework.db.DB;
 import io.basc.framework.env.Sys;
+import io.basc.framework.sql.SimpleSql;
+import io.basc.framework.sql.Sql;
 import io.basc.framework.sqlite.SQLiteDB;
 import io.basc.framework.util.XTime;
 import io.basc.framework.util.XUtils;
 import io.github.wcnnkh.interconnection.core.Transaction;
 import io.github.wcnnkh.interconnection.core.TransactionStatus;
-import io.github.wcnnkh.interconnection.core.TransactionStatusUpdate;
 import io.github.wcnnkh.interconnection.core.TransactionStorageService;
+import io.github.wcnnkh.interconnection.core.TransactionUpdate;
 
-public class SimpleTransactionStorageService implements
-		TransactionStorageService {
-	private final DB db = new SQLiteDB(Sys.env.getWorkPath()
-			+ "/transaction.db");
+@Provider(order = Ordered.LOWEST_PRECEDENCE)
+public class SimpleTransactionStorageService implements TransactionStorageService {
+	private final DB db = new SQLiteDB(Sys.env.getWorkPath() + "/transaction.db");
 
 	public SimpleTransactionStorageService() {
 		db.createTable(Transaction.class);
@@ -36,15 +39,15 @@ public class SimpleTransactionStorageService implements
 	}
 
 	@Override
-	public boolean updateStatus(TransactionStatusUpdate update) {
+	public boolean update(TransactionUpdate update) {
 		Transaction transaction = getTransaction(update.getTransactionId());
 		if (transaction == null) {
 			return false;
 		}
-		//TODO 未处理并发
-		transaction.setStatus(update.getStatus());
-		db.update(transaction);
-		return true;
+
+		Sql sql = new SimpleSql("update transaction set status=?, extendedData=? where transactionId=? and status=?",
+				update.getStatus(), update.getExtendedData(), update.getTransactionId(), update.getOldStatus());
+		return db.update(sql) > 0;
 	}
 
 }

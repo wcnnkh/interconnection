@@ -6,5 +6,5 @@ public interface TransactionStorageService {
 
 	Transaction create();
 
-	boolean updateStatus(TransactionStatusUpdate update);
+	boolean update(TransactionUpdate update);
 }
