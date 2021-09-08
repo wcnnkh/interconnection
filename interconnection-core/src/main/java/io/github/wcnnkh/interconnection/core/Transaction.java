@@ -1,10 +1,15 @@
 package io.github.wcnnkh.interconnection.core;
 
+import javax.validation.constraints.NotNull;
+
+import io.basc.framework.orm.annotation.Entity;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+@Entity
 public class Transaction extends TransactionRequest {
 	private static final long serialVersionUID = 1L;
 	@Schema(description = "交易状态", enumAsRef = true, required = true)
+	@NotNull
 	private TransactionStatus status;
 	@Schema(description = "过期时间， 单位：毫秒", example = "60000", required = true)
 	private long expiryTime;

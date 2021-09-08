@@ -1,10 +1,13 @@
 package io.github.wcnnkh.interconnection.core;
 
+import javax.validation.constraints.NotNull;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class SyncRequest extends TransactionRequest {
 	private static final long serialVersionUID = 1L;
-	@Schema(description = "交易状态")
+	@Schema(description = "交易状态", required = true, enumAsRef = true)
+	@NotNull
 	private TransactionStatus status;
 
 	public TransactionStatus getStatus() {
