@@ -4,6 +4,7 @@ import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.core.Ordered;
 import io.basc.framework.db.DB;
 import io.basc.framework.env.Sys;
+import io.basc.framework.json.JSONUtils;
 import io.basc.framework.sql.SimpleSql;
 import io.basc.framework.sql.Sql;
 import io.basc.framework.sqlite.SQLiteDB;
@@ -46,7 +47,10 @@ public class SimpleTransactionStorageService implements TransactionStorageServic
 		}
 
 		Sql sql = new SimpleSql("update transaction set status=?, extendedData=? where transactionId=? and status=?",
-				update.getStatus(), update.getExtendedData(), update.getTransactionId(), update.getOldStatus());
+				update.getStatus(),
+				update.getExtendedData() == null ? null
+						: JSONUtils.getJsonSupport().toJSONString(update.getExtendedData()),
+				update.getTransactionId(), update.getOldStatus());
 		return db.update(sql) > 0;
 	}
 
