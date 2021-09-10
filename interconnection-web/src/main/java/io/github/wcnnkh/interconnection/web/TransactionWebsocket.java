@@ -1,11 +1,5 @@
 package io.github.wcnnkh.interconnection.web;
 
-import javax.websocket.OnClose;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
-import javax.websocket.server.PathParam;
-import javax.websocket.server.ServerEndpoint;
-
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.event.EventListener;
 import io.basc.framework.event.ObjectEvent;
@@ -18,16 +12,26 @@ import io.github.wcnnkh.interconnection.core.Transaction;
 import io.github.wcnnkh.interconnection.core.TransactionEventDispatcher;
 import io.github.wcnnkh.interconnection.core.TransactionService;
 
+import javax.websocket.OnClose;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.server.PathParam;
+import javax.websocket.server.ServerEndpoint;
+
 @ServerEndpoint(value = "/transaction/{transactionId}", configurator = StandardContainerConfigurator.class)
 public class TransactionWebsocket implements EventListener<ObjectEvent<Transaction>> {
 	private static Logger logger = LoggerFactory.getLogger(TransactionWebsocket.class);
 
 	private StandardSessionManager<String> manager = new StandardSessionManager<>("transactionId");
 
-	@Autowired
 	private TransactionEventDispatcher transactionEventDispatcher;
 	@Autowired
 	private TransactionService transactionService;
+	
+	public TransactionWebsocket(TransactionEventDispatcher transactionEventDispatcher){
+		this.transactionEventDispatcher = transactionEventDispatcher;
+		this.transactionEventDispatcher.registerListener(this);
+	}
 
 	@OnOpen
 	public void onOpen(Session session, @PathParam("transactionId") String transactionId) {
