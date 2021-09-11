@@ -47,7 +47,7 @@
 					<archive>
 						<manifest>
 							<!-- 主程序入口类 -->
-							<mainClass>io.github.wcnnkh.interconnection.ExampleApplication</mainClass>
+							<mainClass>io.github.wcnnkh.interconnection.InterconnectionExampleApplication</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
