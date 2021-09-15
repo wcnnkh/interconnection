@@ -46,10 +46,15 @@ public class TransactionWebsocket implements EventListener<ObjectEvent<Transacti
 	@Override
 	public void onEvent(ObjectEvent<Transaction> event) {
 		manager.getSessions(event.getSource().getTransactionId()).forEach((session) -> {
+			String message = JSONUtils.getJsonSupport().toJSONString(event.getSource());
 			try {
-				session.getBasicRemote().sendText(JSONUtils.getJsonSupport().toJSONString(event.getSource()));
+				if(logger.isDebugEnabled()) {
+					logger.debug("Send [{}] message: {}", manager.getGroup(session), message);
+				}
+				
+				session.getBasicRemote().sendText(message);
 			} catch (Exception e) {
-				logger.error(e, "发送消息异常:{}", JSONUtils.getJsonSupport().toJSONString(event.getSource()));
+				logger.error(e, "发送[{}]消息异常:{}", manager.getGroup(session), message);
 			}
 		});
 	}
