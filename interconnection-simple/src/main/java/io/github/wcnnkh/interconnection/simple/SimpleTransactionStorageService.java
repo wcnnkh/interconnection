@@ -8,7 +8,7 @@ import io.basc.framework.json.JSONUtils;
 import io.basc.framework.sql.SimpleSql;
 import io.basc.framework.sql.Sql;
 import io.basc.framework.sqlite.SQLiteDB;
-import io.basc.framework.util.XTime;
+import io.basc.framework.util.TimeUtils;
 import io.basc.framework.util.XUtils;
 import io.github.wcnnkh.interconnection.core.Transaction;
 import io.github.wcnnkh.interconnection.core.TransactionStatus;
@@ -33,7 +33,7 @@ public class SimpleTransactionStorageService implements TransactionStorageServic
 		Transaction transaction = new Transaction();
 		transaction.setTransactionId(XUtils.getUUID());
 		transaction.setCts(System.currentTimeMillis());
-		transaction.setExpiryTime(XTime.ONE_MINUTE);
+		transaction.setExpiryTime(TimeUtils.ONE_MINUTE);
 		transaction.setStatus(TransactionStatus.CREATED);
 		db.save(transaction);
 		return transaction;
