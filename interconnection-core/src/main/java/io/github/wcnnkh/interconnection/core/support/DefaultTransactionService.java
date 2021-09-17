@@ -76,7 +76,7 @@ public class DefaultTransactionService implements TransactionService {
 		update.setOldStatus(transaction.getStatus());
 
 		transaction.setStatus(request.getStatus());
-		Copy.copy(update, transaction);
+		Copy.copy(transaction, update);
 
 		if (!transactionStorageService.update(update)) {
 			return resultFactory.error("操作失败");
