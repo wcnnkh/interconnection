@@ -11,7 +11,7 @@ import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.Result;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.http.MediaType;
-import io.basc.framework.web.message.annotation.RequestBody;
+import io.basc.framework.mvc.message.annotation.RequestBody;
 import io.github.wcnnkh.interconnection.core.SyncRequest;
 import io.github.wcnnkh.interconnection.core.Transaction;
 import io.github.wcnnkh.interconnection.core.TransactionService;
