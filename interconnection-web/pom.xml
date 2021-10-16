@@ -25,5 +25,10 @@
   		<groupId>io.github.wcnnkh</groupId>
   		<artifactId>interconnection-core</artifactId>
   	</dependency>
+  	
+  	<dependency>
+  		<groupId>io.basc.start</groupId>
+  		<artifactId>tencent</artifactId>
+  	</dependency>
   </dependencies>
 </project>
