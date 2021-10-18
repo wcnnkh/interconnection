@@ -15,6 +15,7 @@
   	<module>interconnection-example</module>
   	<module>interconnection-qrcode</module>
   	<module>interconnection-simple</module>
+  	<module>interconnection-admin</module>
   </modules>
   
   <dependencyManagement>
@@ -42,6 +43,11 @@
   		<dependency>
   			<groupId>io.github.wcnnkh</groupId>
   			<artifactId>interconnection-simple</artifactId>
+  			<version>0.0.1-SNAPSHOT</version>
+  		</dependency>
+  		<dependency>
+  			<groupId>io.github.wcnnkh</groupId>
+  			<artifactId>interconnection-admin</artifactId>
   			<version>0.0.1-SNAPSHOT</version>
   		</dependency>
   	</dependencies>

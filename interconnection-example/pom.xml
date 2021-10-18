@@ -33,6 +33,11 @@
 			<groupId>io.github.wcnnkh</groupId>
 			<artifactId>interconnection-simple</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>io.github.wcnnkh</groupId>
+			<artifactId>interconnection-admin</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
