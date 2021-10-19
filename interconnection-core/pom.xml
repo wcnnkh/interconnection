@@ -10,8 +10,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>io.basc.framework</groupId>
-			<artifactId>orm</artifactId>
+			<groupId>io.basc.start</groupId>
+			<artifactId>start-data</artifactId>
 		</dependency>
 	</dependencies>
 </project>

@@ -12,6 +12,10 @@
   		<artifactId>interconnection-core</artifactId>
   	</dependency>
   	<dependency>
+  		<groupId>io.basc.start</groupId>
+  		<artifactId>start-data-db</artifactId>
+  	</dependency>
+  	<dependency>
   		<groupId>io.basc.framework</groupId>
   		<artifactId>sqlite</artifactId>
   	</dependency>
