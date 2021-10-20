@@ -33,10 +33,20 @@
 			<groupId>io.github.wcnnkh</groupId>
 			<artifactId>interconnection-simple</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>io.github.wcnnkh</groupId>
 			<artifactId>interconnection-admin</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.basc.start</groupId>
+			<artifactId>start-app-impl</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.basc.framework</groupId>
+			<artifactId>testing</artifactId>
 		</dependency>
 	</dependencies>
 	<build>
