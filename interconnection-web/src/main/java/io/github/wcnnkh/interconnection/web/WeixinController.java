@@ -64,7 +64,7 @@ public class WeixinController {
 				.toAuthorizeUrl());
 	}
 
-	@Path("/authorize/code/{connnectId}")
+	@Path("/authorize/code/{connectId}")
 	@GET
 	@Hidden
 	public ModelAndView authorizeCall(@NotNull Integer connectId,
