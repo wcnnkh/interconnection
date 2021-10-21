@@ -11,6 +11,8 @@ import javax.ws.rs.Path;
 
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.codec.support.URLCodec;
+import io.basc.framework.logger.Logger;
+import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.mvc.message.annotation.QueryParams;
 import io.basc.framework.mvc.model.ModelAndView;
 import io.basc.framework.net.uri.UriUtils;
@@ -28,6 +30,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Path("/weixin")
 @Tag(name = "微信授权登录")
 public class WeixinController {
+	private static Logger logger = LoggerFactory.getLogger(WeixinController.class);
 	private final DataService dataService;
 	@Autowired
 	private AppConfigure appConfigure;
@@ -52,14 +55,16 @@ public class WeixinController {
 			config.setState(request.getState());
 		}
 
-		config.setRedirectUri(StringUtils.cleanPath(appConfigure.getHost()
-				+ serverHttpRequest.getContextPath()
-				+ "/weixin/authorize/call/" + request.getConnectId()));
+		config.setRedirectUri(appConfigure.getHost() + StringUtils.cleanPath(serverHttpRequest.getContextPath()
+				+ "/weixin/authorize/code/" + request.getConnectId()));
+		if(logger.isDebugEnabled()){
+			logger.debug("connect [{}] redirect [{}]", request.getConnectId(), config.getRedirectUri());
+		}
 		response.sendRedirect(request.isQr() ? config.toQrconnectUrl() : config
 				.toAuthorizeUrl());
 	}
 
-	@Path("/authorize/call/{connnectId}")
+	@Path("/authorize/code/{connnectId}")
 	@GET
 	@Hidden
 	public ModelAndView authorizeCall(@NotNull Integer connectId,
@@ -76,8 +81,12 @@ public class WeixinController {
 				: state);
 
 		ModelAndView view = new ModelAndView("/ftl/wx-connect-call.ftl");
-		view.put("url", UriUtils.appendQueryParams(config.getRedirectUri(),
-				params, URLCodec.UTF_8));
+		String url = UriUtils.appendQueryParams(config.getRedirectUri(),
+				params, URLCodec.UTF_8);
+		view.put("url", url);
+		if(logger.isDebugEnabled()){
+			logger.debug("connect [{}] to [{}]", connectId, url);
+		}
 		return view;
 	}
 }
