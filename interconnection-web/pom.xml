@@ -22,6 +22,11 @@
   	</dependency>
   	
   	<dependency>
+  		<groupId>io.basc.framework</groupId>
+  		<artifactId>freemarker</artifactId>
+  	</dependency>
+  	
+  	<dependency>
   		<groupId>io.github.wcnnkh</groupId>
   		<artifactId>interconnection-core</artifactId>
   	</dependency>

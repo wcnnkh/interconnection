@@ -13,8 +13,8 @@ public class WxAuthorizeRequest implements Serializable {
 	private Integer connectId;
 	@Schema(description = "状态,会回传")
 	private String state;
-	@Schema(description = "授权类型 0是默认,1是扫码", example = "0", defaultValue = "0", required = true)
-	private int type;
+	@Schema(description = "是否是扫码授权", example = "false", defaultValue = "false", required = true)
+	private boolean qr;
 
 	public Integer getConnectId() {
 		return connectId;
@@ -32,11 +32,11 @@ public class WxAuthorizeRequest implements Serializable {
 		this.state = state;
 	}
 
-	public int getType() {
-		return type;
+	public boolean isQr() {
+		return qr;
 	}
 
-	public void setType(int type) {
-		this.type = type;
+	public void setQr(boolean qr) {
+		this.qr = qr;
 	}
 }
