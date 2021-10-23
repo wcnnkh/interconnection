@@ -16,6 +16,7 @@ import io.basc.framework.web.ServerHttpResponse;
 import io.basc.start.app.configure.AppConfigure;
 import io.basc.start.data.DataService;
 import io.basc.start.tencent.wx.JsApiSignature;
+import io.basc.start.tencent.wx.Scope;
 import io.basc.start.tencent.wx.UserAccessToken;
 import io.basc.start.tencent.wx.Userinfo;
 import io.basc.start.tencent.wx.WeiXinUtils;
@@ -105,11 +106,14 @@ public class WeixinController {
 					weixinMpConfig.getAppid(), weixinMpConfig.getAppsecret(),
 					code);
 			if (userToken != null) {
-				Userinfo userinfo = WeiXinUtils.getUserinfo(
-						userToken.getOpenid(), userToken.getToken().getToken());
-				if (userinfo != null) {
-					params.putAll(MapperUtils.getFields(Userinfo.class).all()
-							.getValueMap(userinfo));
+				params.put("openid", userToken.getOpenid());
+				if(!Scope.BASE.getValue().equals(config.getScope())){
+					Userinfo userinfo = WeiXinUtils.getUserinfo(
+							userToken.getOpenid(), userToken.getToken().getToken());
+					if (userinfo != null) {
+						params.putAll(MapperUtils.getFields(Userinfo.class).all()
+								.getValueMap(userinfo));
+					}
 				}
 			}
 		}
