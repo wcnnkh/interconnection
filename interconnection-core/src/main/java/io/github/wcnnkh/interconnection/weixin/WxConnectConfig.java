@@ -1,4 +1,4 @@
-package io.github.wcnnkh.interconnection.editable;
+package io.github.wcnnkh.interconnection.weixin;
 
 import io.basc.framework.orm.annotation.PrimaryKey;
 import io.basc.framework.orm.sql.annotation.AutoIncrement;
