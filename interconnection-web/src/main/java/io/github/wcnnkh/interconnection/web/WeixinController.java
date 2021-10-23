@@ -16,6 +16,7 @@ import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
+import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.mvc.message.annotation.QueryParams;
 import io.basc.framework.mvc.model.ModelAndView;
 import io.basc.framework.net.uri.UriUtils;
@@ -27,6 +28,8 @@ import io.basc.framework.web.ServerHttpResponse;
 import io.basc.start.app.configure.AppConfigure;
 import io.basc.start.data.DataService;
 import io.basc.start.tencent.wx.JsApiSignature;
+import io.basc.start.tencent.wx.UserAccessToken;
+import io.basc.start.tencent.wx.Userinfo;
 import io.basc.start.tencent.wx.WeiXinUtils;
 import io.github.wcnnkh.interconnection.editable.WeixinMpConfig;
 import io.github.wcnnkh.interconnection.editable.WxConnectConfig;
@@ -74,7 +77,7 @@ public class WeixinController {
 		response.sendRedirect(request.isQr() ? config.toQrconnectUrl() : config
 				.toAuthorizeUrl());
 	}
-
+	
 	@Path("/authorize/code/{connectId}")
 	@GET
 	@Hidden
@@ -86,10 +89,21 @@ public class WeixinController {
 			return null;
 		}
 
-		Map<String, Object> params = new HashMap<String, Object>(4);
+		Map<String, Object> params = new HashMap<String, Object>(8);
 		params.put("code", code);
 		params.put("state", StringUtils.isEmpty(state) ? config.getState()
 				: state);
+		
+		WeixinMpConfig weixinMpConfig = dataService.getById(WeixinMpConfig.class, config.getAppid());
+		if(weixinMpConfig != null){
+			UserAccessToken userToken = WeiXinUtils.getUserAccesstoken(weixinMpConfig.getAppid(), weixinMpConfig.getAppsecret(), code);
+			if(userToken != null){
+				Userinfo userinfo = WeiXinUtils.getUserinfo(userToken.getOpenid(), userToken.getToken().getToken());
+				if(userinfo != null){
+					params.putAll(MapperUtils.getFields(Userinfo.class).all().getValueMap(userinfo));
+				}
+			}
+		}
 
 		ModelAndView view = new ModelAndView("/ftl/wx-connect-call.ftl");
 		String url = UriUtils.appendQueryParams(config.getRedirectUri(),
