@@ -15,7 +15,6 @@ import io.basc.framework.web.ServerHttpRequest;
 import io.basc.framework.web.ServerHttpResponse;
 import io.basc.start.app.configure.AppConfigure;
 import io.basc.start.data.DataService;
-import io.basc.start.tencent.wx.JsApiSignature;
 import io.basc.start.tencent.wx.Scope;
 import io.basc.start.tencent.wx.UserAccessToken;
 import io.basc.start.tencent.wx.Userinfo;
@@ -23,6 +22,8 @@ import io.basc.start.tencent.wx.WeiXinUtils;
 import io.github.wcnnkh.interconnection.web.dto.WxAuthorizeRequest;
 import io.github.wcnnkh.interconnection.weixin.WeixinMpConfig;
 import io.github.wcnnkh.interconnection.weixin.WxConnectConfig;
+import io.github.wcnnkh.interconnection.weixin.dto.JsApiSignatureRequest;
+import io.github.wcnnkh.interconnection.weixin.dto.JsApiSignatureResponse;
 import io.github.wcnnkh.interconnection.weixin.service.WeixinService;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,7 +38,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.QueryParam;
 
 @Path("/weixin")
 @Tag(name = "微信授权登录")
@@ -128,11 +128,10 @@ public class WeixinController {
 		return view;
 	}
 
-	@Path("/get/signature")
+	@Path("/signature")
 	@GET
 	@Operation(description = "获取js api signature")
-	public DataResult<JsApiSignature> getJsApiSignature(
-			@QueryParam("appid") String appid, @QueryParam("url") String url) {
-		return weixinService.getJsApiSignature(appid, url);
+	public DataResult<JsApiSignatureResponse> getJsApiSignature(@QueryParams JsApiSignatureRequest request) {
+		return weixinService.getJsApiSignature(request);
 	}
 }

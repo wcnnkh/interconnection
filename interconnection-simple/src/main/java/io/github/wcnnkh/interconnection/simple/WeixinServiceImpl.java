@@ -4,13 +4,17 @@ import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.beans.annotation.Service;
 import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.ResultFactory;
+import io.basc.framework.mapper.Copy;
 import io.basc.framework.oauth2.AccessToken;
 import io.basc.framework.security.Token;
+import io.basc.framework.util.RandomUtils;
 import io.basc.framework.util.StringUtils;
 import io.basc.start.data.DataService;
 import io.basc.start.tencent.wx.JsApiSignature;
 import io.basc.start.tencent.wx.WeiXinUtils;
 import io.github.wcnnkh.interconnection.weixin.WeixinMpConfig;
+import io.github.wcnnkh.interconnection.weixin.dto.JsApiSignatureRequest;
+import io.github.wcnnkh.interconnection.weixin.dto.JsApiSignatureResponse;
 import io.github.wcnnkh.interconnection.weixin.service.WeixinService;
 
 @Service
@@ -97,15 +101,25 @@ public class WeixinServiceImpl implements WeixinService {
 	}
 
 	@Override
-	public DataResult<JsApiSignature> getJsApiSignature(String appid, String url) {
-		DataResult<String> ticketResponse = getJsApiTicket(appid);
+	public DataResult<JsApiSignatureResponse> getJsApiSignature(JsApiSignatureRequest request) {
+		DataResult<String> ticketResponse = getJsApiTicket(request.getAppid());
 		if (ticketResponse.isError()) {
 			return ticketResponse.dataResult();
 		}
+		
+		JsApiSignatureResponse response = new JsApiSignatureResponse();
+		Copy.copy(request, response);
+		if(StringUtils.isEmpty(response.getNonceStr())){
+			response.setNonceStr(RandomUtils.getRandomStr(10));
+		}
+		
+		if(response.getTimestamp() != null){
+			response.setTimestamp(System.currentTimeMillis()/1000);
+		}
 
-		JsApiSignature jsApiSignature = new JsApiSignature(
-				ticketResponse.getData(), url);
-		return resultFactory.success(jsApiSignature);
+		JsApiSignature jsApiSignature = new JsApiSignature(response.getNonceStr(), ticketResponse.getData(), response.getTimestamp(), response.getUrl());
+		response.setSignature(jsApiSignature.getSignature());
+		return resultFactory.success(response);
 	}
 
 }
