@@ -91,6 +91,7 @@ public class WeixinServiceImpl implements WeixinService {
 						|| (System.currentTimeMillis() - createTime) > (7200 - 60) * 1000) {
 					Token token = WeiXinUtils
 							.getJsApiTicket(accessTokenResponse.getData());
+					config = dataService.getById(WeixinMpConfig.class, appid);
 					config.setJsApiTicket(token.getToken());
 					config.setJsApiTicketCreateTime(System.currentTimeMillis());
 					dataService.update(config);

@@ -40,7 +40,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
 @Path("/weixin")
-@Tag(name = "微信授权登录")
+@Tag(name = "微信授权")
 public class WeixinController {
 	private static Logger logger = LoggerFactory
 			.getLogger(WeixinController.class);
