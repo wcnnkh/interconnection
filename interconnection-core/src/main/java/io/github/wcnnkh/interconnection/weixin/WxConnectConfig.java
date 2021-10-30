@@ -1,7 +1,7 @@
 package io.github.wcnnkh.interconnection.weixin;
 
+import io.basc.framework.orm.annotation.AutoIncrement;
 import io.basc.framework.orm.annotation.PrimaryKey;
-import io.basc.framework.orm.sql.annotation.AutoIncrement;
 import io.basc.start.data.annotation.Editable;
 import io.basc.start.tencent.wx.WxConnect;
 import io.swagger.v3.oas.annotations.media.Schema;
