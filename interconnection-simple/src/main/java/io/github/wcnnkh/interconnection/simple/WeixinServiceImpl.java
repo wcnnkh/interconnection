@@ -113,7 +113,7 @@ public class WeixinServiceImpl implements WeixinService {
 			response.setNonceStr(RandomUtils.getRandomStr(10));
 		}
 		
-		if(response.getTimestamp() != null){
+		if(response.getTimestamp() == null){
 			response.setTimestamp(System.currentTimeMillis()/1000);
 		}
 
