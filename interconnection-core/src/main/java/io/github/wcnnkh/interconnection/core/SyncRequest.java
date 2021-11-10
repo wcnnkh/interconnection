@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class SyncRequest extends TransactionRequest {
 	private static final long serialVersionUID = 1L;
 	@Schema(description = "交易状态", required = true, enumAsRef = true)
-	@NotNull
+	@NotNull(message = "交易状态不能为空")
 	private TransactionStatus status;
 
 	public TransactionStatus getStatus() {

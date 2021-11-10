@@ -1,5 +1,14 @@
 package io.github.wcnnkh.interconnection.web;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+
 import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.codec.support.URLCodec;
 import io.basc.framework.context.result.DataResult;
@@ -7,12 +16,12 @@ import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.mapper.MapperUtils;
-import io.basc.framework.mvc.message.annotation.QueryParams;
-import io.basc.framework.mvc.model.ModelAndView;
 import io.basc.framework.net.uri.UriUtils;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.web.ServerHttpRequest;
 import io.basc.framework.web.ServerHttpResponse;
+import io.basc.framework.web.message.annotation.QueryParams;
+import io.basc.framework.web.message.model.ModelAndView;
 import io.basc.start.app.configure.AppConfigure;
 import io.basc.start.data.DataService;
 import io.basc.start.tencent.wx.Scope;
@@ -29,15 +38,6 @@ import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 
 @Path("/weixin")
 @Tag(name = "微信授权")
