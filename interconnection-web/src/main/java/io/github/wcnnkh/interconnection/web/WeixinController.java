@@ -111,7 +111,7 @@ public class WeixinController {
 					Userinfo userinfo = WeiXinUtils.getUserinfo(
 							userToken.getOpenid(), userToken.getToken().getToken());
 					if (userinfo != null) {
-						params.putAll(MapperUtils.getFields(Userinfo.class).all()
+						params.putAll(MapperUtils.getFields(Userinfo.class).ignoreStatic().all()
 								.getValueMap(userinfo));
 					}
 				}
