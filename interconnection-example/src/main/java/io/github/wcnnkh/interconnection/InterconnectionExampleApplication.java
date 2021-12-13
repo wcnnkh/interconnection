@@ -11,14 +11,14 @@ public class InterconnectionExampleApplication {
 	public static void main(String[] args) {
 		MainApplication.run(InterconnectionExampleApplication.class, args);
 	}
-	
+
 	@Bean
 	public CorsRegistry getCorsRegistry() {
 		CorsRegistry registry = new CorsRegistry();
 		registry.add("/**", Cors.DEFAULT);
 		return registry;
 	}
-	
+
 	@Bean
 	public DB getDB() {
 		return SQLiteDB.create("transaction");

@@ -16,6 +16,11 @@
 
 		<dependency>
 			<groupId>io.basc.framework</groupId>
+			<artifactId>timer</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.basc.framework</groupId>
 			<artifactId>log4j</artifactId>
 		</dependency>
 
