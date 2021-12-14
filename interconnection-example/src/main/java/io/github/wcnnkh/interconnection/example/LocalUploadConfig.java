@@ -1,6 +1,8 @@
 package io.github.wcnnkh.interconnection.example;
 
 import io.basc.framework.beans.annotation.ConfigurationProperties;
+import io.basc.framework.env.Sys;
+import io.basc.framework.util.StringUtils;
 import lombok.Data;
 
 @Data
@@ -18,4 +20,8 @@ public class LocalUploadConfig {
 	 * 是否保留原始名称
 	 */
 	private boolean retainOriginFilename = false;
+
+	public String getFilePath() {
+		return StringUtils.isEmpty(filePath) ? Sys.env.getWorkPath() : filePath;
+	}
 }

@@ -1,5 +1,7 @@
 package io.github.wcnnkh.interconnection;
 
+import javax.servlet.annotation.MultipartConfig;
+
 import io.basc.framework.beans.annotation.Bean;
 import io.basc.framework.boot.support.MainApplication;
 import io.basc.framework.db.DB;
@@ -7,6 +9,7 @@ import io.basc.framework.sqlite.SQLiteDB;
 import io.basc.framework.web.cors.Cors;
 import io.basc.framework.web.cors.CorsRegistry;
 
+@MultipartConfig
 public class InterconnectionExampleApplication {
 	public static void main(String[] args) {
 		MainApplication.run(InterconnectionExampleApplication.class, args);

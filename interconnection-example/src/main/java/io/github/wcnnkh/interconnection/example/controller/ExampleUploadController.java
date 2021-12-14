@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
@@ -15,6 +16,7 @@ import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.env.Sys;
 import io.basc.framework.http.HttpMethod;
+import io.basc.framework.http.MediaType;
 import io.basc.framework.io.FileUtils;
 import io.basc.framework.io.Resource;
 import io.basc.framework.logger.Logger;
@@ -52,6 +54,7 @@ public class ExampleUploadController implements StaticResourceLoader {
 	@Path("multiple")
 	@Operation(description = "批量上传")
 	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA_VALUE)
 	public DataResult<List<String>> multiple(List<MultipartMessage> messages)
 			throws IllegalStateException, IOException {
 		if (CollectionUtils.isEmpty(messages)) {
@@ -67,13 +70,14 @@ public class ExampleUploadController implements StaticResourceLoader {
 	@Operation(description = "单个上传")
 	@Path("single")
 	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA_VALUE)
 	public DataResult<String> single(MultipartMessage message) throws IllegalStateException, IOException {
 		if (message == null) {
 			return resultFactory.error("无文件");
 		}
 
 		if (message.getSize() == 0) {
-			return resultFactory.error("文件长度为0");
+			return resultFactory.error("文件大小为0");
 		}
 		return resultFactory.success(upload(message));
 	}
@@ -109,7 +113,7 @@ public class ExampleUploadController implements StaticResourceLoader {
 			message.close();
 		}
 		String url = StringUtils.cleanPath(localUploadConfig.getHost() + localUploadConfig.getPath() + path);
-		logger.info("上传文件{}, 返回路径: {}" + message.getOriginalFilename(), url);
+		logger.info("上传文件{}, 返回路径: {}", message.getOriginalFilename(), url);
 		return url;
 	}
 
