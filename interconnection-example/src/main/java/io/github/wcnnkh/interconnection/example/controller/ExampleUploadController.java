@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
@@ -31,6 +32,8 @@ import io.basc.framework.web.ServerHttpRequest;
 import io.basc.framework.web.resource.StaticResourceLoader;
 import io.github.wcnnkh.interconnection.example.LocalUploadConfig;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
@@ -55,11 +58,17 @@ public class ExampleUploadController implements StaticResourceLoader {
 	@Operation(description = "批量上传")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA_VALUE)
-	public DataResult<List<String>> multiple(List<MultipartMessage> messages)
+	public DataResult<List<String>> multiple(
+			@FormParam("files") 
+			@Parameter(schema = @Schema(type = "string", format = "binary"), required = true)
+			//@Parameter(array = @ArraySchema(schema = @Schema(type = "string", format = "binary"), arraySchema = @Schema(type = "array")), required = true)
+			//@ArraySchema(schema = @Schema(type = "string", format = "binary"), arraySchema = @Schema(type = "array"))
+			List<MultipartMessage> messages)
 			throws IllegalStateException, IOException {
 		if (CollectionUtils.isEmpty(messages)) {
 			return resultFactory.error("无文件");
 		}
+
 		List<String> urls = new ArrayList<>();
 		for (MultipartMessage message : messages) {
 			urls.add(upload(message));
@@ -71,7 +80,9 @@ public class ExampleUploadController implements StaticResourceLoader {
 	@Path("single")
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA_VALUE)
-	public DataResult<String> single(MultipartMessage message) throws IllegalStateException, IOException {
+	public DataResult<String> single(
+			@FormParam("file") @Parameter(schema = @Schema(type = "string", format = "binary"), required = true) MultipartMessage message)
+			throws IllegalStateException, IOException {
 		if (message == null) {
 			return resultFactory.error("无文件");
 		}
