@@ -111,7 +111,7 @@ public class WeixinServiceImpl implements WeixinService {
 		JsApiSignatureResponse response = new JsApiSignatureResponse();
 		Copy.copy(request, response);
 		if(StringUtils.isEmpty(response.getNonceStr())){
-			response.setNonceStr(RandomUtils.getRandomStr(10));
+			response.setNonceStr(RandomUtils.randomString(10));
 		}
 		
 		if(response.getTimestamp() == null){
