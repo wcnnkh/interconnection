@@ -5,13 +5,13 @@ import io.basc.framework.beans.annotation.Service;
 import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.mapper.Copy;
-import io.basc.framework.oauth2.AccessToken;
 import io.basc.framework.security.Token;
 import io.basc.framework.util.RandomUtils;
 import io.basc.framework.util.StringUtils;
 import io.basc.start.data.DataService;
-import io.basc.start.tencent.wx.JsApiSignature;
-import io.basc.start.tencent.wx.WeiXinUtils;
+import io.basc.start.tencent.wx.api.JsApiSignature;
+import io.basc.start.tencent.wx.api.WeiXinApi;
+import io.basc.start.tencent.wx.api.WeiXinOffiaccount;
 import io.github.wcnnkh.interconnection.weixin.WeixinMpConfig;
 import io.github.wcnnkh.interconnection.weixin.dto.JsApiSignatureRequest;
 import io.github.wcnnkh.interconnection.weixin.dto.JsApiSignatureResponse;
@@ -29,15 +29,13 @@ public class WeixinServiceImpl implements WeixinService {
 
 	@Override
 	public DataResult<String> getAccessToken(String appid) {
-		WeixinMpConfig config = dataService
-				.getById(WeixinMpConfig.class, appid);
+		WeixinMpConfig config = dataService.getById(WeixinMpConfig.class, appid);
 		if (config == null) {
 			return resultFactory.error("appid不存在");
 		}
 
 		Long createTime = config.getAccessTokenCreateTime();
-		if (StringUtils.isEmpty(config.getAccessToken())
-				|| createTime == null
+		if (StringUtils.isEmpty(config.getAccessToken()) || createTime == null
 				|| (System.currentTimeMillis() - createTime) > (7200 - 60) * 1000) {
 			// 已过期
 			synchronized (this) {
@@ -47,13 +45,12 @@ public class WeixinServiceImpl implements WeixinService {
 				}
 
 				createTime = config.getAccessTokenCreateTime();
-				if (StringUtils.isEmpty(config.getAccessToken())
-						|| createTime == null
+				if (StringUtils.isEmpty(config.getAccessToken()) || createTime == null
 						|| (System.currentTimeMillis() - createTime) > (7200 - 60) * 1000) {
-					AccessToken accessToken = WeiXinUtils.getAccessToken(
-							config.getAppid(), config.getAppsecret());
-					config.setAccessToken(accessToken.getToken().getToken());
-					config.setAccessTokenCreateTime(System.currentTimeMillis());
+					WeiXinApi weixinApi = new WeiXinApi(config.getAppid(), config.getAppsecret());
+					Token token = weixinApi.getClientCredential(false);
+					config.setAccessToken(token.getToken());
+					config.setAccessTokenCreateTime(token.getCreateTime());
 					dataService.update(config);
 				}
 			}
@@ -63,15 +60,13 @@ public class WeixinServiceImpl implements WeixinService {
 
 	@Override
 	public DataResult<String> getJsApiTicket(String appid) {
-		WeixinMpConfig config = dataService
-				.getById(WeixinMpConfig.class, appid);
+		WeixinMpConfig config = dataService.getById(WeixinMpConfig.class, appid);
 		if (config == null) {
 			return resultFactory.error("appid不存在");
 		}
 
 		Long createTime = config.getJsApiTicketCreateTime();
-		if (StringUtils.isEmpty(config.getJsApiTicket())
-				|| createTime == null
+		if (StringUtils.isEmpty(config.getJsApiTicket()) || createTime == null
 				|| (System.currentTimeMillis() - createTime) > (7200 - 60) * 1000) {
 			// 已过期
 			synchronized (this) {
@@ -86,11 +81,10 @@ public class WeixinServiceImpl implements WeixinService {
 				}
 
 				createTime = config.getJsApiTicketCreateTime();
-				if (StringUtils.isEmpty(config.getJsApiTicket())
-						|| createTime == null
+				if (StringUtils.isEmpty(config.getJsApiTicket()) || createTime == null
 						|| (System.currentTimeMillis() - createTime) > (7200 - 60) * 1000) {
-					Token token = WeiXinUtils
-							.getJsApiTicket(accessTokenResponse.getData());
+					WeiXinOffiaccount weixinApi = new WeiXinOffiaccount(config.getAppid(), config.getAppsecret());
+					Token token = weixinApi.getJsapiTicket(accessTokenResponse.getData());
 					config = dataService.getById(WeixinMpConfig.class, appid);
 					config.setJsApiTicket(token.getToken());
 					config.setJsApiTicketCreateTime(System.currentTimeMillis());
@@ -107,18 +101,19 @@ public class WeixinServiceImpl implements WeixinService {
 		if (ticketResponse.isError()) {
 			return ticketResponse.dataResult();
 		}
-		
+
 		JsApiSignatureResponse response = new JsApiSignatureResponse();
 		Copy.copy(request, response);
-		if(StringUtils.isEmpty(response.getNonceStr())){
+		if (StringUtils.isEmpty(response.getNonceStr())) {
 			response.setNonceStr(RandomUtils.randomString(10));
 		}
-		
-		if(response.getTimestamp() == null){
-			response.setTimestamp(System.currentTimeMillis()/1000);
+
+		if (response.getTimestamp() == null) {
+			response.setTimestamp(System.currentTimeMillis() / 1000);
 		}
 
-		JsApiSignature jsApiSignature = new JsApiSignature(response.getNonceStr(), ticketResponse.getData(), response.getTimestamp(), response.getUrl());
+		JsApiSignature jsApiSignature = new JsApiSignature(response.getNonceStr(), ticketResponse.getData(),
+				response.getTimestamp(), response.getUrl());
 		response.setSignature(jsApiSignature.getSignature());
 		return resultFactory.success(response);
 	}

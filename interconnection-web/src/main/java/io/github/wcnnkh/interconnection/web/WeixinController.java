@@ -24,10 +24,10 @@ import io.basc.framework.web.message.annotation.QueryParams;
 import io.basc.framework.web.message.model.ModelAndView;
 import io.basc.start.app.configure.AppConfigure;
 import io.basc.start.data.DataService;
-import io.basc.start.tencent.wx.Scope;
-import io.basc.start.tencent.wx.UserAccessToken;
-import io.basc.start.tencent.wx.Userinfo;
-import io.basc.start.tencent.wx.WeiXinUtils;
+import io.basc.start.tencent.wx.api.UserAccessToken;
+import io.basc.start.tencent.wx.api.Userinfo;
+import io.basc.start.tencent.wx.api.WeiXinOffiaccount;
+import io.basc.start.tencent.wx.open.Scope;
 import io.github.wcnnkh.interconnection.web.dto.WxAuthorizeRequest;
 import io.github.wcnnkh.interconnection.weixin.WeixinMpConfig;
 import io.github.wcnnkh.interconnection.weixin.WxConnectConfig;
@@ -42,8 +42,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Path("/weixin")
 @Tag(name = "微信授权")
 public class WeixinController {
-	private static Logger logger = LoggerFactory
-			.getLogger(WeixinController.class);
+	private static Logger logger = LoggerFactory.getLogger(WeixinController.class);
 	private final DataService dataService;
 	@Autowired
 	private WeixinService weixinService;
@@ -60,10 +59,8 @@ public class WeixinController {
 	@GET
 	public void authorize(@QueryParams WxAuthorizeRequest request,
 			@Parameter(hidden = true) ServerHttpResponse response,
-			@Parameter(hidden = true) ServerHttpRequest serverHttpRequest)
-			throws IOException {
-		WxConnectConfig config = dataService.getById(WxConnectConfig.class,
-				request.getConnectId());
+			@Parameter(hidden = true) ServerHttpRequest serverHttpRequest) throws IOException {
+		WxConnectConfig config = dataService.getById(WxConnectConfig.class, request.getConnectId());
 		if (config == null) {
 			return;
 		}
@@ -72,55 +69,46 @@ public class WeixinController {
 			config.setState(request.getState());
 		}
 
-		config.setRedirectUri(appConfigure.getHost()
-				+ StringUtils.cleanPath(serverHttpRequest.getContextPath()
-						+ "/weixin/authorize/code/" + request.getConnectId()));
+		config.setRedirectUri(appConfigure.getHost() + StringUtils
+				.cleanPath(serverHttpRequest.getContextPath() + "/weixin/authorize/code/" + request.getConnectId()));
 		if (logger.isDebugEnabled()) {
-			logger.debug("connect [{}] redirect [{}]", request.getConnectId(),
-					config.getRedirectUri());
+			logger.debug("connect [{}] redirect [{}]", request.getConnectId(), config.getRedirectUri());
 		}
-		response.sendRedirect(request.isQr() ? config.toQrconnectUrl() : config
-				.toAuthorizeUrl());
+		response.sendRedirect(request.isQr() ? config.toQrconnectUrl() : config.toAuthorizeUrl());
 	}
 
 	@Path("/authorize/code/{connectId}")
 	@GET
 	@Hidden
-	public ModelAndView authorizeCall(@NotNull Integer connectId,
-			@NotEmpty String code, String state) {
-		WxConnectConfig config = dataService.getById(WxConnectConfig.class,
-				connectId);
+	public ModelAndView authorizeCall(@NotNull Integer connectId, @NotEmpty String code, String state) {
+		WxConnectConfig config = dataService.getById(WxConnectConfig.class, connectId);
 		if (config == null) {
 			return null;
 		}
 
 		Map<String, Object> params = new HashMap<String, Object>(8);
 		params.put("code", code);
-		params.put("state", StringUtils.isEmpty(state) ? config.getState()
-				: state);
+		params.put("state", StringUtils.isEmpty(state) ? config.getState() : state);
 
-		WeixinMpConfig weixinMpConfig = dataService.getById(
-				WeixinMpConfig.class, config.getAppid());
+		WeixinMpConfig weixinMpConfig = dataService.getById(WeixinMpConfig.class, config.getAppid());
 		if (weixinMpConfig != null) {
-			UserAccessToken userToken = WeiXinUtils.getUserAccesstoken(
-					weixinMpConfig.getAppid(), weixinMpConfig.getAppsecret(),
-					code);
+			WeiXinOffiaccount weiXinOffiaccount = new WeiXinOffiaccount(weixinMpConfig.getAppid(),
+					weixinMpConfig.getAppsecret());
+			UserAccessToken userToken = weiXinOffiaccount.getUserAccessToken(code);
 			if (userToken != null) {
 				params.put("openid", userToken.getOpenid());
-				if(!Scope.BASE.getValue().equals(config.getScope())){
-					Userinfo userinfo = WeiXinUtils.getUserinfo(
-							userToken.getOpenid(), userToken.getToken().getToken());
+				if (!Scope.BASE.getValue().equals(config.getScope())) {
+					Userinfo userinfo = weiXinOffiaccount.getUserinfo(userToken.getOpenid(),
+							userToken.getToken().getToken());
 					if (userinfo != null) {
-						params.putAll(MapperUtils.getFields(Userinfo.class).ignoreStatic().all()
-								.getValueMap(userinfo));
+						params.putAll(MapperUtils.getFields(Userinfo.class).ignoreStatic().all().getValueMap(userinfo));
 					}
 				}
 			}
 		}
 
 		ModelAndView view = new ModelAndView("/ftl/wx-connect-call.ftl");
-		String url = UriUtils.appendQueryParams(config.getRedirectUri(),
-				params, URLCodec.UTF_8);
+		String url = UriUtils.appendQueryParams(config.getRedirectUri(), params, URLCodec.UTF_8);
 		view.put("url", url);
 		if (logger.isDebugEnabled()) {
 			logger.debug("connect [{}] to [{}]", connectId, url);
