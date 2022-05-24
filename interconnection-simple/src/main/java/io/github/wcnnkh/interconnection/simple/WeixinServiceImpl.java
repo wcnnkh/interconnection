@@ -5,10 +5,10 @@ import io.basc.framework.beans.annotation.Service;
 import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.mapper.Copy;
+import io.basc.framework.orm.repository.RepositoryTemplate;
 import io.basc.framework.security.Token;
 import io.basc.framework.util.RandomUtils;
 import io.basc.framework.util.StringUtils;
-import io.basc.start.data.DataService;
 import io.basc.start.tencent.wx.api.JsApiSignature;
 import io.basc.start.tencent.wx.api.WeiXinApi;
 import io.basc.start.tencent.wx.api.WeiXinOffiaccount;
@@ -19,11 +19,11 @@ import io.github.wcnnkh.interconnection.weixin.service.WeixinService;
 
 @Service
 public class WeixinServiceImpl implements WeixinService {
-	private final DataService dataService;
+	private final RepositoryTemplate dataService;
 	@Autowired
 	private ResultFactory resultFactory;
 
-	public WeixinServiceImpl(DataService dataService) {
+	public WeixinServiceImpl(RepositoryTemplate dataService) {
 		this.dataService = dataService;
 	}
 

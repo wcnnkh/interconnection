@@ -53,6 +53,11 @@
 			<groupId>io.basc.framework</groupId>
 			<artifactId>testing</artifactId>
 		</dependency>
+		
+		<dependency>
+  		<groupId>io.basc.framework</groupId>
+  		<artifactId>sqlite</artifactId>
+  	</dependency>
 	</dependencies>
 	<build>
 		<plugins>

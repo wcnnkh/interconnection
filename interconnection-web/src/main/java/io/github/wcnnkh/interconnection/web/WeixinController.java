@@ -17,13 +17,13 @@ import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.mapper.MapperUtils;
 import io.basc.framework.net.uri.UriUtils;
+import io.basc.framework.orm.repository.RepositoryTemplate;
 import io.basc.framework.util.StringUtils;
 import io.basc.framework.web.ServerHttpRequest;
 import io.basc.framework.web.ServerHttpResponse;
 import io.basc.framework.web.message.annotation.QueryParams;
 import io.basc.framework.web.message.model.ModelAndView;
 import io.basc.start.app.configure.AppConfigure;
-import io.basc.start.data.DataService;
 import io.basc.start.tencent.wx.api.UserAccessToken;
 import io.basc.start.tencent.wx.api.Userinfo;
 import io.basc.start.tencent.wx.api.WeiXinOffiaccount;
@@ -43,7 +43,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "微信授权")
 public class WeixinController {
 	private static Logger logger = LoggerFactory.getLogger(WeixinController.class);
-	private final DataService dataService;
+	private final RepositoryTemplate dataService;
 	@Autowired
 	private WeixinService weixinService;
 	@Autowired
@@ -51,7 +51,7 @@ public class WeixinController {
 	@Autowired
 	private ResultFactory resultFactory;
 
-	public WeixinController(DataService dataService) {
+	public WeixinController(RepositoryTemplate dataService) {
 		this.dataService = dataService;
 	}
 
