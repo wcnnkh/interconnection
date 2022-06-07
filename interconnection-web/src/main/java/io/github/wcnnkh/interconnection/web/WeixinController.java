@@ -15,7 +15,7 @@ import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
-import io.basc.framework.mapper.MapperUtils;
+import io.basc.framework.mapper.Fields;
 import io.basc.framework.net.uri.UriUtils;
 import io.basc.framework.orm.repository.RepositoryTemplate;
 import io.basc.framework.util.StringUtils;
@@ -101,7 +101,7 @@ public class WeixinController {
 					Userinfo userinfo = weiXinOffiaccount.getUserinfo(userToken.getOpenid(),
 							userToken.getToken().getToken());
 					if (userinfo != null) {
-						params.putAll(MapperUtils.getFields(Userinfo.class).ignoreStatic().all().getValueMap(userinfo));
+						params.putAll(Fields.getFields(Userinfo.class).ignoreStatic().all().getValueMap(userinfo));
 					}
 				}
 			}
