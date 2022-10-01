@@ -2,8 +2,8 @@ package io.github.wcnnkh.interconnection;
 
 import javax.servlet.annotation.MultipartConfig;
 
-import io.basc.framework.beans.annotation.Bean;
 import io.basc.framework.boot.support.MainApplication;
+import io.basc.framework.context.annotation.Bean;
 import io.basc.framework.db.DB;
 import io.basc.framework.sqlite.SQLiteDB;
 import io.basc.framework.web.cors.Cors;

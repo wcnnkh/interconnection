@@ -11,9 +11,9 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
-import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.context.annotation.EnableCondition;
 import io.basc.framework.context.annotation.Provider;
+import io.basc.framework.context.ioc.annotation.Autowired;
 import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.env.Sys;
@@ -102,7 +102,7 @@ public class ExampleUploadController implements StaticResourceLoader {
 
 		String path = localUploadConfig.getFilePath() + "/"
 				+ request.getPath().substring(localUploadConfig.getPath().length());
-		return Sys.env.getResource(StringUtils.cleanPath(path));
+		return Sys.getEnv().getResourceLoader().getResource(StringUtils.cleanPath(path));
 	}
 
 	private String upload(MultipartMessage message) throws IllegalStateException, IOException {

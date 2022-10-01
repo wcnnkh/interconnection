@@ -9,8 +9,8 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
-import io.basc.framework.beans.annotation.Autowired;
 import io.basc.framework.codec.support.URLCodec;
+import io.basc.framework.context.ioc.annotation.Autowired;
 import io.basc.framework.context.result.DataResult;
 import io.basc.framework.context.result.ResultFactory;
 import io.basc.framework.logger.Logger;

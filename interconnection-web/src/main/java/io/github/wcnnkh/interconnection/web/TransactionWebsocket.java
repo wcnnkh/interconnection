@@ -1,6 +1,12 @@
 package io.github.wcnnkh.interconnection.web;
 
-import io.basc.framework.beans.annotation.Autowired;
+import javax.websocket.OnClose;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.server.PathParam;
+import javax.websocket.server.ServerEndpoint;
+
+import io.basc.framework.context.ioc.annotation.Autowired;
 import io.basc.framework.event.EventListener;
 import io.basc.framework.event.ObjectEvent;
 import io.basc.framework.json.JSONUtils;
@@ -11,12 +17,6 @@ import io.basc.framework.websocket.adapter.standard.StandardSessionManager;
 import io.github.wcnnkh.interconnection.core.Transaction;
 import io.github.wcnnkh.interconnection.core.TransactionEventDispatcher;
 import io.github.wcnnkh.interconnection.core.TransactionService;
-
-import javax.websocket.OnClose;
-import javax.websocket.OnOpen;
-import javax.websocket.Session;
-import javax.websocket.server.PathParam;
-import javax.websocket.server.ServerEndpoint;
 
 @ServerEndpoint(value = "/transaction/{transactionId}", configurator = StandardContainerConfigurator.class)
 public class TransactionWebsocket implements EventListener<ObjectEvent<Transaction>> {
