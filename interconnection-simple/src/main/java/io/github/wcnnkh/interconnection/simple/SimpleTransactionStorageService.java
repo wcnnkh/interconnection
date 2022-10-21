@@ -3,7 +3,7 @@ package io.github.wcnnkh.interconnection.simple;
 import io.basc.framework.context.annotation.Provider;
 import io.basc.framework.core.Ordered;
 import io.basc.framework.db.DB;
-import io.basc.framework.json.JSONUtils;
+import io.basc.framework.json.JsonUtils;
 import io.basc.framework.sql.SimpleSql;
 import io.basc.framework.sql.Sql;
 import io.basc.framework.util.XUtils;
@@ -15,7 +15,7 @@ import io.github.wcnnkh.interconnection.core.TransactionUpdate;
 @Provider(order = Ordered.LOWEST_PRECEDENCE)
 public class SimpleTransactionStorageService implements TransactionStorageService {
 	private final DB db;
-	
+
 	public SimpleTransactionStorageService(DB db) {
 		this.db = db;
 		db.createTable(Transaction.class, false);
@@ -46,8 +46,7 @@ public class SimpleTransactionStorageService implements TransactionStorageServic
 
 		Sql sql = new SimpleSql("update `transaction` set status=?, extendedData=? where transactionId=? and status=?",
 				update.getStatus(),
-				update.getExtendedData() == null ? null
-						: JSONUtils.getJsonSupport().toJSONString(update.getExtendedData()),
+				update.getExtendedData() == null ? null : JsonUtils.toJsonString(update.getExtendedData()),
 				update.getTransactionId(), update.getOldStatus());
 		return db.update(sql) > 0;
 	}

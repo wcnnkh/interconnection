@@ -9,7 +9,7 @@ import javax.websocket.server.ServerEndpoint;
 import io.basc.framework.context.ioc.annotation.Autowired;
 import io.basc.framework.event.EventListener;
 import io.basc.framework.event.ObjectEvent;
-import io.basc.framework.json.JSONUtils;
+import io.basc.framework.json.JsonUtils;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.websocket.adapter.standard.StandardContainerConfigurator;
@@ -46,7 +46,7 @@ public class TransactionWebsocket implements EventListener<ObjectEvent<Transacti
 	@Override
 	public void onEvent(ObjectEvent<Transaction> event) {
 		manager.getSessions(event.getSource().getTransactionId()).forEach((session) -> {
-			String message = JSONUtils.getJsonSupport().toJSONString(event.getSource());
+			String message = JsonUtils.toJsonString(event.getSource());
 			try {
 				if(logger.isDebugEnabled()) {
 					logger.debug("Send [{}] message: {}", manager.getGroup(session), message);
