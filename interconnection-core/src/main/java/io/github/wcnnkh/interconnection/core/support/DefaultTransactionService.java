@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.basc.framework.context.annotation.Provider;
-import io.basc.framework.context.result.DataResult;
-import io.basc.framework.context.result.Result;
-import io.basc.framework.context.result.ResultFactory;
+import io.basc.framework.context.transaction.DataResult;
+import io.basc.framework.context.transaction.Result;
+import io.basc.framework.context.transaction.ResultFactory;
 import io.basc.framework.core.Ordered;
 import io.basc.framework.event.ObjectEvent;
 import io.basc.framework.lang.Nullable;

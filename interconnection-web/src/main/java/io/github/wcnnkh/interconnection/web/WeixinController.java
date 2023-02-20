@@ -11,8 +11,8 @@ import javax.ws.rs.Path;
 
 import io.basc.framework.codec.support.URLCodec;
 import io.basc.framework.context.ioc.annotation.Autowired;
-import io.basc.framework.context.result.DataResult;
-import io.basc.framework.context.result.ResultFactory;
+import io.basc.framework.context.transaction.DataResult;
+import io.basc.framework.context.transaction.ResultFactory;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.mapper.Fields;
@@ -23,11 +23,11 @@ import io.basc.framework.web.ServerHttpRequest;
 import io.basc.framework.web.ServerHttpResponse;
 import io.basc.framework.web.message.annotation.QueryParams;
 import io.basc.framework.web.message.model.ModelAndView;
-import io.basc.start.app.configure.AppConfigure;
 import io.basc.start.tencent.wx.api.UserAccessToken;
 import io.basc.start.tencent.wx.api.Userinfo;
 import io.basc.start.tencent.wx.api.WeiXinOffiaccount;
 import io.basc.start.tencent.wx.open.Scope;
+import io.basc.start.usercenter.security.UsercenterSecurityConfigure;
 import io.github.wcnnkh.interconnection.web.dto.WxAuthorizeRequest;
 import io.github.wcnnkh.interconnection.weixin.WeixinMpConfig;
 import io.github.wcnnkh.interconnection.weixin.WxConnectConfig;
@@ -47,7 +47,7 @@ public class WeixinController {
 	@Autowired
 	private WeixinService weixinService;
 	@Autowired
-	private AppConfigure appConfigure;
+	private UsercenterSecurityConfigure appConfigure;
 	@Autowired
 	private ResultFactory resultFactory;
 

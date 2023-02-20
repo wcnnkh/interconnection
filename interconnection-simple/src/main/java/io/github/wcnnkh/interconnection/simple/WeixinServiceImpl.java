@@ -2,8 +2,8 @@ package io.github.wcnnkh.interconnection.simple;
 
 import io.basc.framework.context.annotation.Service;
 import io.basc.framework.context.ioc.annotation.Autowired;
-import io.basc.framework.context.result.DataResult;
-import io.basc.framework.context.result.ResultFactory;
+import io.basc.framework.context.transaction.DataResult;
+import io.basc.framework.context.transaction.ResultFactory;
 import io.basc.framework.mapper.Copy;
 import io.basc.framework.orm.repository.RepositoryTemplate;
 import io.basc.framework.security.Token;
@@ -99,7 +99,7 @@ public class WeixinServiceImpl implements WeixinService {
 	public DataResult<JsApiSignatureResponse> getJsApiSignature(JsApiSignatureRequest request) {
 		DataResult<String> ticketResponse = getJsApiTicket(request.getAppid());
 		if (ticketResponse.isError()) {
-			return ticketResponse.dataResult();
+			return ticketResponse.toReturn();
 		}
 
 		JsApiSignatureResponse response = new JsApiSignatureResponse();

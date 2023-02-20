@@ -2,7 +2,7 @@ package io.github.wcnnkh.interconnection.core.support;
 
 import java.util.Map;
 
-import io.basc.framework.context.result.DataResult;
+import io.basc.framework.context.transaction.DataResult;
 import io.github.wcnnkh.interconnection.core.SyncRequest;
 
 /**

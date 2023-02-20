@@ -1,6 +1,6 @@
 package io.github.wcnnkh.interconnection.core;
 
-import io.basc.framework.context.result.Result;
+import io.basc.framework.context.transaction.Result;
 
 public interface TransactionService {
 	/**
