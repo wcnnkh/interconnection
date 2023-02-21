@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 
 import io.basc.framework.codec.support.URLCodec;
 import io.basc.framework.context.ioc.annotation.Autowired;
+import io.basc.framework.context.ioc.annotation.Value;
 import io.basc.framework.context.transaction.DataResult;
 import io.basc.framework.context.transaction.ResultFactory;
 import io.basc.framework.logger.Logger;
@@ -27,7 +28,6 @@ import io.basc.start.tencent.wx.api.UserAccessToken;
 import io.basc.start.tencent.wx.api.Userinfo;
 import io.basc.start.tencent.wx.api.WeiXinOffiaccount;
 import io.basc.start.tencent.wx.open.Scope;
-import io.basc.start.usercenter.security.UsercenterSecurityConfigure;
 import io.github.wcnnkh.interconnection.web.dto.WxAuthorizeRequest;
 import io.github.wcnnkh.interconnection.weixin.WeixinMpConfig;
 import io.github.wcnnkh.interconnection.weixin.WxConnectConfig;
@@ -46,8 +46,8 @@ public class WeixinController {
 	private final RepositoryTemplate dataService;
 	@Autowired
 	private WeixinService weixinService;
-	@Autowired
-	private UsercenterSecurityConfigure appConfigure;
+	@Value("qrcode.host")
+	private String host;
 	@Autowired
 	private ResultFactory resultFactory;
 
@@ -69,7 +69,7 @@ public class WeixinController {
 			config.setState(request.getState());
 		}
 
-		config.setRedirectUri(appConfigure.getHost() + StringUtils
+		config.setRedirectUri((host == null ? "" : host) + StringUtils
 				.cleanPath(serverHttpRequest.getContextPath() + "/weixin/authorize/code/" + request.getConnectId()));
 		if (logger.isDebugEnabled()) {
 			logger.debug("connect [{}] redirect [{}]", request.getConnectId(), config.getRedirectUri());
