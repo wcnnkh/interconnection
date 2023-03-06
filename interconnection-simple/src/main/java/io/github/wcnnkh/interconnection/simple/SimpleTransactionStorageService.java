@@ -46,7 +46,7 @@ public class SimpleTransactionStorageService implements TransactionStorageServic
 
 		Sql sql = new SimpleSql("update `transaction` set status=?, extendedData=? where transactionId=? and status=?",
 				update.getStatus(),
-				update.getExtendedData() == null ? null : JsonUtils.toJsonString(update.getExtendedData()),
+				update.getExtendedData() == null ? null : JsonUtils.getSupport().toJsonString(update.getExtendedData()),
 				update.getTransactionId(), update.getOldStatus());
 		return db.update(sql) > 0;
 	}

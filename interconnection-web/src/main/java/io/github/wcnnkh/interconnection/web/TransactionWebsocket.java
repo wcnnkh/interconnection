@@ -46,7 +46,7 @@ public class TransactionWebsocket implements EventListener<ObjectEvent<Transacti
 	@Override
 	public void onEvent(ObjectEvent<Transaction> event) {
 		manager.getSessions(event.getSource().getTransactionId()).forEach((session) -> {
-			String message = JsonUtils.toJsonString(event.getSource());
+			String message = JsonUtils.getSupport().toJsonString(event.getSource());
 			try {
 				if(logger.isDebugEnabled()) {
 					logger.debug("Send [{}] message: {}", manager.getGroup(session), message);
