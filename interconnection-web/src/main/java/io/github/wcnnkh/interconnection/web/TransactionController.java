@@ -12,6 +12,7 @@ import io.basc.framework.context.transaction.DataResult;
 import io.basc.framework.context.transaction.Result;
 import io.basc.framework.context.transaction.ResultFactory;
 import io.basc.framework.http.MediaType;
+import io.basc.framework.mvc.annotation.Controller;
 import io.basc.framework.web.message.annotation.RequestBody;
 import io.github.wcnnkh.interconnection.core.SyncRequest;
 import io.github.wcnnkh.interconnection.core.Transaction;
@@ -21,6 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "交易处理")
 @Path(value = "transaction")
+@Controller
 public class TransactionController {
 	@Autowired
 	private TransactionService transactionService;

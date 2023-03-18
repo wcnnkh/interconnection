@@ -23,6 +23,7 @@ import io.basc.framework.io.FileUtils;
 import io.basc.framework.io.Resource;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
+import io.basc.framework.mvc.annotation.Controller;
 import io.basc.framework.net.message.multipart.MultipartMessage;
 import io.basc.framework.timer.boot.annotation.Crontab;
 import io.basc.framework.util.CollectionUtils;
@@ -44,6 +45,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  *
  */
 @Tag(name = "文件上传示例")
+@Controller
 @Path("/example/upload")
 @EnableCondition(condition = "local.upload.enable")
 @Provider

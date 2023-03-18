@@ -17,6 +17,7 @@ import io.basc.framework.context.transaction.ResultFactory;
 import io.basc.framework.logger.Logger;
 import io.basc.framework.logger.LoggerFactory;
 import io.basc.framework.mapper.Fields;
+import io.basc.framework.mvc.annotation.Controller;
 import io.basc.framework.net.uri.UriUtils;
 import io.basc.framework.orm.repository.RepositoryTemplate;
 import io.basc.framework.util.StringUtils;
@@ -39,6 +40,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Controller
 @Path("/weixin")
 @Tag(name = "微信授权")
 public class WeixinController {
