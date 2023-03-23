@@ -23,5 +23,5 @@ public class WxConnectConfig extends WxConnect {
 	@PrimaryKey
 	@NotEmpty
 	@AutoIncrement
-	private Integer id;
+	private int id;
 }
